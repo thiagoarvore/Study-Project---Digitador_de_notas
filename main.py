@@ -7,11 +7,9 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 import pandas as pd
 import datetime
 import os
-import sys
 from sys import exit
 
 def obtertotalalunos():
