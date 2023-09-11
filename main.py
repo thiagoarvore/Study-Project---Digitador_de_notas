@@ -24,7 +24,8 @@ def obtertotalalunos():
             continue
     total_de_alunos = int(b)
     return total_de_alunos
-
+    
+ano_atual = datetime.datetime.now().year
 num_matricula = 212895
 senha_user = 212895 #input('Escreva sua senha: ') 
 check_bimestre = False
@@ -33,8 +34,11 @@ while check_bimestre == False:
     bimestre = 3 #int(input('Insira o bimestre desejado: '))
     if bimestre in range(1,5):
         check_bimestre = True
-ano_atual = datetime.datetime.now().year
-# Pasta onde o programa estiver no pc do user
+if check_bimestre == False:
+    input('O bimestre digitado não é válido. Pressione qualquer tecla para fechar o programa')
+    sys.exit()
+
+# Pasta onde o programa estiver no pc do usuário
 pasta_programa = os.path.dirname(os.path.abspath(__file__))
 # Pasta onde as tabelas de nota estão localizadas
 pasta_arquivos = os.path.join(pasta_programa, "TABELAS")
@@ -165,9 +169,7 @@ for i in range(0,total_de_turmas-1):
             if bimestre == 1 or bimestre == 3:     
                 xpath_nota_aluno = f'//*[@id="Open_Text_General"]/tbody/tr[{i}]/td[3]/input'
             if bimestre == 2 or bimestre == 4:
-                pass ##############################
-            ######################## Arrumar isso #######
-            ############
+                xpath_nota_aluno = f'//*[@id="Open_Text_General"]/tbody/tr[{i}]/td/input'
             nota_aluno = secretaria.find_element(By.XPATH, xpath_nota_aluno) 
             #Verificar se a nota é um número de verdade   
             try:
