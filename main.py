@@ -24,21 +24,46 @@ def obtertotalalunos():
             continue
     total_de_alunos = int(b)
     return total_de_alunos
-    
-ano_atual = datetime.datetime.now().year
-num_matricula = 212895
-senha_user = 212895 #input('Escreva sua senha: ') 
-check_bimestre = False
+def inicializar():
+    print(
+        '''
+        Esse programa usa tabelas do Excel para automatizar a inserção de notas no portal Objetivo.
 
+        Seu computador precisa ter o Windows e o Google Chrome instalado.
+
+        Certifique-se que o nome dos alunos estão exatamente iguais em sua tabela de notas e no site 
+        (aqui letras maiúsculas e minúsculas não importam).
+
+        Certifique-se que cada tabela é um arquivo de uma única turma, 
+        e que cada bimestre esteja em uma planilha dessa tabela. 
+        
+        O nome da planilha do bimestre deve conter apenas o número do bimestre, pode conter letras.
+
+        O nome da tabela (arquivo Excel) deve estar EXATAMENTE no formato: 6M1, 9M2, 7M3 (M maiúsculo).
+
+        Em cada bimestre, necessariamente deve existir uma coluna denominada NOME (em letra maiúscula) 
+        e outra coluna denominada NOTA (em letra maiúscula), 
+        que conterão os nomes e notas finais dos alunos, respectivamente. 
+
+        Evite movimentar o mouse durante o processamento do programa, ele vai levar poucos minutos
+        '''
+    )
+
+inicializar()
+input('Aperte qualquer tecla para iniciar')
+#Inicializar algumas varáveis
+num_matricula = 212895
+senha_user = input('Escreva sua senha: ') 
+check_bimestre = False
+ano_atual = datetime.datetime.now().year
 while check_bimestre == False:
-    bimestre = 3 #int(input('Insira o bimestre desejado: '))
+    bimestre = int(input('Insira o bimestre desejado: '))
     if bimestre in range(1,5):
         check_bimestre = True
 if check_bimestre == False:
     input('O bimestre digitado não é válido. Pressione qualquer tecla para fechar o programa')
     sys.exit()
-
-# Pasta onde o programa estiver no pc do usuário
+# Pasta onde o programa estiver no pc do user
 pasta_programa = os.path.dirname(os.path.abspath(__file__))
 # Pasta onde as tabelas de nota estão localizadas
 pasta_arquivos = os.path.join(pasta_programa, "TABELAS")
@@ -80,7 +105,7 @@ sleep(1)
 bot_notas2 = secretaria.find_element(By.XPATH, '//*[@id="M3L1"]')
 sleep(1)
 bot_notas2.click()
-sleep(3)
+sleep(1)
 # Só pegar turmas que o professor tem no ano atual
 turmas_site = []
 for a in range(3, 20):
@@ -95,7 +120,7 @@ for a in range(3, 20):
         break
 total_de_turmas = len(turmas_site)
 # Abrir turma no site a partir de nova lista 
-# (porque ele não lembra os elementos depois de voltar para a página)
+# (porque ele não lembra os elementos depois de voltar para a página de turmas pela segunda vez)
 for i in range(0,total_de_turmas-1):
     coluna_alunos = 0
     coluna_nota = 0 
@@ -113,7 +138,7 @@ for i in range(0,total_de_turmas-1):
     sleep(0.1)
     turma = turmas_site_interno[i]    
     nome_turma = turma.text[3:]
-    print(nome_turma)
+    
     # Selecionar o bimestre
     turma.click()
     dropdown_bim = secretaria.find_element(By.XPATH, 
@@ -169,7 +194,7 @@ for i in range(0,total_de_turmas-1):
             if bimestre == 1 or bimestre == 3:     
                 xpath_nota_aluno = f'//*[@id="Open_Text_General"]/tbody/tr[{i}]/td[3]/input'
             if bimestre == 2 or bimestre == 4:
-                xpath_nota_aluno = f'//*[@id="Open_Text_General"]/tbody/tr[{i}]/td/input'
+                xpath_nota_aluno = f'//*[@id="Open_Text_General"]/tbody/tr[{i}]/td/input'   
             nota_aluno = secretaria.find_element(By.XPATH, xpath_nota_aluno) 
             #Verificar se a nota é um número de verdade   
             try:
@@ -194,6 +219,7 @@ for i in range(0,total_de_turmas-1):
         # Salvar as notas
     botao_salvar = secretaria.find_element(By.XPATH, '//*[@id="imagem"]/p/a')       
     botao_salvar.click()
+    print(f'{nome_turma} foi inserida')
     sleep(0.2)
     try: 
         alert = Alert(secretaria)
