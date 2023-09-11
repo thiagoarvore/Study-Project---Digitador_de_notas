@@ -1,6 +1,8 @@
 # Digitador_de_notas
 Esse programa usa tabelas do Excel para automatizar a inserção de notas no portal Objetivo.
 
+É necessário Windows e Google Chrome instalados
+
 Certifique-se que o nome dos alunos estão exatamente iguais em sua tabela de notas e no site (aqui letras maiúsculas e minúsculas não importam)
 
 Certifique-se que cada tabela é um arquivo de uma única turma, e que cada bimestre esteja em uma planilha dessa tabela.
